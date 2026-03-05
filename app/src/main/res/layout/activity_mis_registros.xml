@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📋 Mis Registros"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Botón actualizar -->
+        <Button
+            android:id="@+id/btnCargarRegistros"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🔄  Actualizar Registros"
+            android:textSize="14sp"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Lista de registros -->
+        <TextView
+            android:id="@+id/tvRegistros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cargando registros..."
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:background="@color/card_background"
+            android:padding="12dp"/>
+
+    </LinearLayout>
+</ScrollView>

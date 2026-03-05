@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚙️ Panel de Administración"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Sección empleados -->
+        <Button
+            android:id="@+id/btnVerEmpleados"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="👤  Ver Empleados"
+            android:textSize="14sp"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tvEmpleados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:background="@color/card_background"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Sección incidencias -->
+        <Button
+            android:id="@+id/btnVerIncidenciasAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📝  Ver Incidencias (todos)"
+            android:textSize="14sp"
+            android:backgroundTint="@color/accent"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/tvIncidenciasAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="14sp"
+            android:textColor="@color/text_primary"
+            android:background="@color/card_background"
+            android:padding="12dp"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Sección mapa -->
+        <Button
+            android:id="@+id/btnVerMapa"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🗺️  Ver Mapa de la Empresa"
+            android:textSize="14sp"
+            android:backgroundTint="@color/success"/>
+
+    </LinearLayout>
+</ScrollView>

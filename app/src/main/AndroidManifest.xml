@@ -2,7 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos de localización GPS para el fichaje -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Permiso NFC para el fichaje por etiqueta NFC -->
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="false" />
+
+    <!-- Permisos de internet para las llamadas a la API REST -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Permiso para mostrar notificaciones (obligatorio desde Android 13) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlPresencia"
-
         android:usesCleartextTraffic="true"
-
         tools:targetApi="31">
 
         <activity
@@ -28,6 +38,19 @@
         </activity>
 
         <activity android:name=".FicharActivity" />
+        <activity android:name=".IncidenciasActivity" />
+        <activity android:name=".MisRegistrosActivity" />
+        <activity android:name=".HorasExtraActivity" />
+        <activity android:name=".CambiarPasswordActivity" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".MapaEmpresaActivity" />
+        <activity android:name=".FichajeNFCActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
     </application>
 </manifest>

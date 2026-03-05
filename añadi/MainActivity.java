@@ -8,13 +8,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.auth0.android.jwt.JWT;
+import com.auth0.android.jwt.JWT; // Necesitas añadir la dependencia: implementation 'com.auth0.android:jwtdecode:2.0.2'
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// Pantalla de login — punto de entrada de la app
+// Activity de login — punto de entrada de la app
 // Solo me encargo de recoger las credenciales y llamar a la API
 public class MainActivity extends AppCompatActivity {
 

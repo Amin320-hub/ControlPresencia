@@ -18,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
-// Pantalla de fichaje — solo gestiono la UI y observo el ViewModel (arquitectura MVVM)
-// Mi lógica de negocio está en FichajeViewModel, no aquí
+// Activity de fichaje — solo gestiona la UI y observa el ViewModel (arquitectura MVVM)
+// La lógica de negocio está en FichajeViewModel, no aquí
 public class FicharActivity extends AppCompatActivity {
 
     // Código de petición para el permiso de localización
@@ -43,9 +43,8 @@ public class FicharActivity extends AppCompatActivity {
         Button btnIncidencias = findViewById(R.id.btnIncidencias);
         Button btnMisRegistros = findViewById(R.id.btnMisRegistros);
         Button btnHorasExtra = findViewById(R.id.btnHorasExtra);
-        Button btnAdmin = findViewById(R.id.btnAdmin); // Solo visible si es admin
+        Button btnAdmin = findViewById(R.id.btnAdmin);      // Solo visible si es admin
         Button btnCambiarPass = findViewById(R.id.btnCambiarPass);
-        Button btnFichajeNFC = findViewById(R.id.btnFichajeNFC);
 
         // Recupero el token JWT que me pasó la MainActivity al hacer login
         token = getIntent().getStringExtra("TOKEN");
@@ -54,23 +53,19 @@ public class FicharActivity extends AppCompatActivity {
         // Inicializo el cliente de localización de Google Play Services
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Creo el ViewModel — Android lo gestiona para que sobreviva a rotaciones de
-        // pantalla
+        // Creo el ViewModel — Android lo gestiona para que sobreviva a rotaciones de pantalla
         viewModel = new ViewModelProvider(this).get(FichajeViewModel.class);
 
-        // Observo el resultado del fichaje: cuando el ViewModel actualice el LiveData,
-        // actualizo la UI
+        // Observo el resultado del fichaje: cuando el ViewModel actualice el LiveData, actualizo la UI
         viewModel.getFichajeResult().observe(this, fichajeResponse -> {
             tvStatus.setText(fichajeResponse.msg);
 
             if ("entrada".equals(fichajeResponse.status)) {
-                // Si acabo de entrar, pongo el botón en ROJO para indicar que el siguiente
-                // toque será salida
+                // Si acabo de entrar, pongo el botón en ROJO para indicar que el siguiente toque será salida
                 btnFichar.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                 btnFichar.setText("SALIR");
             } else {
-                // Si acabo de salir, pongo el botón en VERDE para indicar que el siguiente
-                // toque será entrada
+                // Si acabo de salir, pongo el botón en VERDE para indicar que el siguiente toque será entrada
                 btnFichar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
                 btnFichar.setText("ENTRAR");
             }
@@ -78,7 +73,9 @@ public class FicharActivity extends AppCompatActivity {
         });
 
         // Observo los errores del ViewModel
-        viewModel.getErrorMessage().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_LONG).show());
+        viewModel.getErrorMessage().observe(this, error ->
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+        );
 
         // Al pulsar fichar, primero obtengo la ubicación GPS y luego llamo al ViewModel
         btnFichar.setOnClickListener(v -> obtenerUbicacionYFichar());
@@ -111,13 +108,6 @@ public class FicharActivity extends AppCompatActivity {
             startActivity(i);
         });
 
-        // Navego a fichaje por NFC
-        btnFichajeNFC.setOnClickListener(v -> {
-            Intent i = new Intent(this, FichajeNFCActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
         // El botón de admin solo lo muestro si el usuario tiene rol de administrador
         if ("Administrador".equals(rol)) {
             btnAdmin.setVisibility(android.view.View.VISIBLE);
@@ -131,15 +121,14 @@ public class FicharActivity extends AppCompatActivity {
         }
     }
 
-    // Pido permiso de localización si no lo tengo, y obtengo la última ubicación
-    // conocida
+    // Pido permiso de localización si no lo tengo, y obtengo la última ubicación conocida
     private void obtenerUbicacionYFichar() {
         // Compruebo si tengo permiso de localización
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             // Si no tengo permiso, lo pido al usuario
             ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSION_REQUEST_LOCATION);
             return;
         }
@@ -160,12 +149,12 @@ public class FicharActivity extends AppCompatActivity {
     // Gestiono la respuesta del usuario al diálogo de permisos
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Me han aceptado el permiso, reintento fichar
+                // El usuario aceptó el permiso, reintento fichar
                 obtenerUbicacionYFichar();
             } else {
                 Toast.makeText(this,

@@ -1,38 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="@color/background">
 
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bienvenido"
-        android:textSize="22sp"
-        android:textAlignment="center"
-        android:textColor="#555555"
-        android:layout_marginBottom="50dp"/>
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnFichar"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:text="FICHAR"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:backgroundTint="#4CAF50"
-        android:elevation="10dp"
-        android:stateListAnimator="@null"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pulsa para registrar entrada/salida"
-        android:layout_marginTop="20dp"
-        android:textSize="14sp"
-        android:textColor="#888888"/>
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fichaje de Presencia"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="8dp"/>
 
-</LinearLayout>
+        <!-- Estado actual -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bienvenido"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- Botón grande de fichar -->
+        <Button
+            android:id="@+id/btnFichar"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:text="FICHAR"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/success"
+            android:elevation="8dp"
+            android:stateListAnimator="@null"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pulsa para registrar entrada/salida"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="28dp"
+            android:textSize="13sp"
+            android:textColor="@color/text_hint"/>
+
+        <!-- Separador -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- Botón Fichaje NFC -->
+        <Button
+            android:id="@+id/btnFichajeNFC"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📡  Fichaje NFC"
+            android:textSize="14sp"
+            android:backgroundTint="@color/nfc_color"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Botón Incidencias -->
+        <Button
+            android:id="@+id/btnIncidencias"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📝  Incidencias"
+            android:textSize="14sp"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Botón Mis Registros -->
+        <Button
+            android:id="@+id/btnMisRegistros"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="📋  Mis Registros"
+            android:textSize="14sp"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Botón Horas Extra -->
+        <Button
+            android:id="@+id/btnHorasExtra"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="⏱️  Horas Extra"
+            android:textSize="14sp"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Botón Cambiar Contraseña -->
+        <Button
+            android:id="@+id/btnCambiarPass"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="🔑  Cambiar Contraseña"
+            android:textSize="14sp"
+            android:backgroundTint="@color/admin_color"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Botón Admin (solo visible para admins) -->
+        <Button
+            android:id="@+id/btnAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="⚙️  Administración"
+            android:textSize="14sp"
+            android:backgroundTint="@color/danger"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+</ScrollView>
