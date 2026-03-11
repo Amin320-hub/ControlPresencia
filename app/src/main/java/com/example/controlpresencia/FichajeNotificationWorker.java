@@ -29,11 +29,11 @@ public class FichajeNotificationWorker extends Worker {
 
         if ("entrada".equals(tipoAviso)) {
             mostrarNotificacion(
-                    "⏰ Recuerda fichar",
+                    "Recuerda fichar",
                     "Deberías haber fichado la entrada. ¡No olvides registrar tu presencia!");
         } else if ("salida".equals(tipoAviso)) {
             mostrarNotificacion(
-                    "⏰ Recuerda fichar la salida",
+                    "Recuerda fichar la salida",
                     "Ha pasado tu hora de salida. ¡No olvides fichar!");
         }
 

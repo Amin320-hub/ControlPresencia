@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.controlpresencia">
 
     <!-- Permisos de localización GPS para el fichaje -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -43,6 +44,7 @@
         <activity android:name=".HorasExtraActivity" />
         <activity android:name=".CambiarPasswordActivity" />
         <activity android:name=".AdminActivity" />
+        <activity android:name=".AdminTrabajadorActivity" />
         <activity android:name=".MapaEmpresaActivity" />
         <activity android:name=".FichajeNFCActivity"
             android:exported="false">

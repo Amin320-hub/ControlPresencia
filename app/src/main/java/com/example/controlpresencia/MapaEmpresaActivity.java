@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 // Pantalla del mapa de empresa (solo admin).
 // Muestro la ubicación GPS de la empresa y el círculo del radio permitido para fichar.
-// Uso OpenStreetMap (osmdroid) — no necesito API Key de Google.
+// Uso OpenStreetMap .
 // Desde aquí puedo modificar el radio enviando un PUT a la API.
 public class MapaEmpresaActivity extends AppCompatActivity {
 

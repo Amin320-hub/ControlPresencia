@@ -3,12 +3,14 @@ package com.example.controlpresencia;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +24,8 @@ import retrofit2.Response;
 public class IncidenciasActivity extends AppCompatActivity {
 
     private String token;
-    private TextView tvListaIncidencias;
+    private RecyclerView rvIncidencias;
+    private IncidenciaAdapter incidenciaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,11 @@ public class IncidenciasActivity extends AppCompatActivity {
 
         EditText etDescripcion = findViewById(R.id.etDescripcion);
         Button btnEnviar = findViewById(R.id.btnEnviarIncidencia);
-        tvListaIncidencias = findViewById(R.id.tvListaIncidencias);
+        
+        rvIncidencias = findViewById(R.id.rvIncidencias);
+        rvIncidencias.setLayoutManager(new LinearLayoutManager(this));
+        incidenciaAdapter = new IncidenciaAdapter(new ArrayList<>());
+        rvIncidencias.setAdapter(incidenciaAdapter);
 
         // Al pulsar enviar, creo la incidencia con la fecha y hora actuales
         btnEnviar.setOnClickListener(v -> {
@@ -96,21 +103,18 @@ public class IncidenciasActivity extends AppCompatActivity {
                     public void onResponse(Call<List<IncidenciaResponse>> call,
                             Response<List<IncidenciaResponse>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            // Construyo un texto con todas mis incidencias para mostrarlo en pantalla
-                            StringBuilder sb = new StringBuilder();
-                            for (IncidenciaResponse inc : response.body()) {
-                                sb.append("📅 ").append(inc.fecha_hora).append("\n");
-                                sb.append("📝 ").append(inc.descripcion).append("\n\n");
+                            List<IncidenciaResponse> incidencias = response.body();
+                            incidenciaAdapter.setIncidencias(incidencias);
+                            
+                            if (incidencias.isEmpty()) {
+                                Toast.makeText(IncidenciasActivity.this, "No tienes incidencias registradas.", Toast.LENGTH_SHORT).show();
                             }
-                            tvListaIncidencias.setText(sb.length() > 0
-                                    ? sb.toString()
-                                    : "No tienes incidencias registradas.");
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<IncidenciaResponse>> call, Throwable t) {
-                        tvListaIncidencias.setText("Error al cargar incidencias.");
+                         Toast.makeText(IncidenciasActivity.this, "Error al cargar incidencias.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

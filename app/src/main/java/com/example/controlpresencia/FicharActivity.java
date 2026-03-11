@@ -1,177 +1,62 @@
 package com.example.controlpresencia;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-
-// Pantalla de fichaje — solo gestiono la UI y observo el ViewModel (arquitectura MVVM)
-// Mi lógica de negocio está en FichajeViewModel, no aquí
 public class FicharActivity extends AppCompatActivity {
-
-    // Código de petición para el permiso de localización
-    private static final int PERMISSION_REQUEST_LOCATION = 1001;
-
-    // Cliente de Google para obtener la última ubicación conocida del dispositivo
-    private FusedLocationProviderClient fusedLocationClient;
-
-    private FichajeViewModel viewModel;
-    private String token;
-    private Button btnFichar;
-    private TextView tvStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fichar);
 
-        tvStatus = findViewById(R.id.tvStatus);
-        btnFichar = findViewById(R.id.btnFichar);
-        Button btnIncidencias = findViewById(R.id.btnIncidencias);
-        Button btnMisRegistros = findViewById(R.id.btnMisRegistros);
-        Button btnHorasExtra = findViewById(R.id.btnHorasExtra);
-        Button btnAdmin = findViewById(R.id.btnAdmin); // Solo visible si es admin
-        Button btnCambiarPass = findViewById(R.id.btnCambiarPass);
-        Button btnFichajeNFC = findViewById(R.id.btnFichajeNFC);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        ViewPager2 viewPager = findViewById(R.id.viewPager);
 
-        // Recupero el token JWT que me pasó la MainActivity al hacer login
-        token = getIntent().getStringExtra("TOKEN");
-        String rol = getIntent().getStringExtra("ROL"); // También paso el rol desde MainActivity
+        String token = getIntent().getStringExtra("TOKEN");
+        String rol = getIntent().getStringExtra("ROL");
 
-        // Inicializo el cliente de localización de Google Play Services
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        viewPager.setAdapter(new ViewPagerAdapter(this, token, rol));
 
-        // Creo el ViewModel — Android lo gestiona para que sobreviva a rotaciones de
-        // pantalla
-        viewModel = new ViewModelProvider(this).get(FichajeViewModel.class);
-
-        // Observo el resultado del fichaje: cuando el ViewModel actualice el LiveData,
-        // actualizo la UI
-        viewModel.getFichajeResult().observe(this, fichajeResponse -> {
-            tvStatus.setText(fichajeResponse.msg);
-
-            if ("entrada".equals(fichajeResponse.status)) {
-                // Si acabo de entrar, pongo el botón en ROJO para indicar que el siguiente
-                // toque será salida
-                btnFichar.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                btnFichar.setText("SALIR");
-            } else {
-                // Si acabo de salir, pongo el botón en VERDE para indicar que el siguiente
-                // toque será entrada
-                btnFichar.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
-                btnFichar.setText("ENTRAR");
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0: tab.setText("Fichar"); break;
+                case 1: tab.setText("Registros"); break;
+                case 2: tab.setText("Perfil"); break;
             }
-            Toast.makeText(this, "Fichaje: " + fichajeResponse.status, Toast.LENGTH_SHORT).show();
-        });
-
-        // Observo los errores del ViewModel
-        viewModel.getErrorMessage().observe(this, error -> Toast.makeText(this, error, Toast.LENGTH_LONG).show());
-
-        // Al pulsar fichar, primero obtengo la ubicación GPS y luego llamo al ViewModel
-        btnFichar.setOnClickListener(v -> obtenerUbicacionYFichar());
-
-        // Navego a la pantalla de incidencias
-        btnIncidencias.setOnClickListener(v -> {
-            Intent i = new Intent(this, IncidenciasActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
-        // Navego a ver mis propios registros
-        btnMisRegistros.setOnClickListener(v -> {
-            Intent i = new Intent(this, MisRegistrosActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
-        // Navego a la pantalla de horas extra
-        btnHorasExtra.setOnClickListener(v -> {
-            Intent i = new Intent(this, HorasExtraActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
-        // Navego a cambio de contraseña
-        btnCambiarPass.setOnClickListener(v -> {
-            Intent i = new Intent(this, CambiarPasswordActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
-        // Navego a fichaje por NFC
-        btnFichajeNFC.setOnClickListener(v -> {
-            Intent i = new Intent(this, FichajeNFCActivity.class);
-            i.putExtra("TOKEN", token);
-            startActivity(i);
-        });
-
-        // El botón de admin solo lo muestro si el usuario tiene rol de administrador
-        if ("Administrador".equals(rol)) {
-            btnAdmin.setVisibility(android.view.View.VISIBLE);
-            btnAdmin.setOnClickListener(v -> {
-                Intent i = new Intent(this, AdminActivity.class);
-                i.putExtra("TOKEN", token);
-                startActivity(i);
-            });
-        } else {
-            btnAdmin.setVisibility(android.view.View.GONE);
-        }
+        }).attach();
     }
 
-    // Pido permiso de localización si no lo tengo, y obtengo la última ubicación
-    // conocida
-    private void obtenerUbicacionYFichar() {
-        // Compruebo si tengo permiso de localización
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Si no tengo permiso, lo pido al usuario
-            ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
-                    PERMISSION_REQUEST_LOCATION);
-            return;
+    private static class ViewPagerAdapter extends FragmentStateAdapter {
+        private final String token;
+        private final String rol;
+
+        public ViewPagerAdapter(@NonNull AppCompatActivity activity, String token, String rol) {
+            super(activity);
+            this.token = token;
+            this.rol = rol;
         }
 
-        // Obtengo la última ubicación conocida del dispositivo
-        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
-            if (location != null) {
-                // Si tengo ubicación, llamo al ViewModel para fichar con las coordenadas
-                viewModel.fichar(token, location.getLatitude(), location.getLongitude());
-            } else {
-                Toast.makeText(this,
-                        "No se pudo obtener la ubicación. Activa el GPS.",
-                        Toast.LENGTH_LONG).show();
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            switch (position) {
+                case 0: return FichajeFragment.newInstance(token, rol);
+                case 1: return  RegistrosFragment.newInstance(token);
+                case 2: return PerfilFragment.newInstance(token, rol);
+                default: return FichajeFragment.newInstance(token, rol);
             }
-        });
-    }
+        }
 
-    // Gestiono la respuesta del usuario al diálogo de permisos
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_REQUEST_LOCATION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Me han aceptado el permiso, reintento fichar
-                obtenerUbicacionYFichar();
-            } else {
-                Toast.makeText(this,
-                        "Necesito permiso de localización para fichar.",
-                        Toast.LENGTH_LONG).show();
-            }
+        @Override
+        public int getItemCount() {
+            return 3;
         }
     }
 }

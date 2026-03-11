@@ -16,6 +16,7 @@
     <color name="success">#2E7D32</color>
     <color name="danger">#C62828</color>
     <color name="warning">#F57F17</color>
+    <color name="error">#F44336</color>
     <color name="divider">#E0E0E0</color>
     <color name="admin_color">#6A1B9A</color>
     <color name="nfc_color">#E65100</color>

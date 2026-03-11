@@ -57,11 +57,11 @@ public class FichajeNFCActivity extends AppCompatActivity {
 
         // Observo el resultado del fichaje y actualizo la UI
         viewModel.getFichajeResult().observe(this, fichajeResponse -> {
-            tvEstadoNFC.setText("✅ " + fichajeResponse.msg);
+            tvEstadoNFC.setText(fichajeResponse.msg);
             Toast.makeText(this, fichajeResponse.msg, Toast.LENGTH_SHORT).show();
         });
 
-        viewModel.getErrorMessage().observe(this, error -> tvEstadoNFC.setText("❌ " + error));
+        viewModel.getErrorMessage().observe(this, error -> tvEstadoNFC.setText(error));
 
         tvEstadoNFC.setText("Acerca el teléfono a la etiqueta NFC para fichar");
     }
@@ -103,7 +103,7 @@ public class FichajeNFCActivity extends AppCompatActivity {
             Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
 
             if (tag != null) {
-                tvEstadoNFC.setText("🔄 Tag NFC detectado, fichando...");
+                tvEstadoNFC.setText("Tag NFC detectado, fichando...");
                 // Ficho sin coordenadas GPS (0,0) porque el fichaje NFC no requiere
                 // geolocalización
                 // Mi servidor validará que es una petición NFC por el endpoint

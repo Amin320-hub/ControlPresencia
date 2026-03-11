@@ -2,10 +2,18 @@ package com.example.controlpresencia;
 
 public class LoginRequest {
     private String nif;
-    private String password;
+    private String passw;
 
-    public LoginRequest(String nif, String password) {
+    public LoginRequest(String nif, String passw) {
         this.nif = nif;
-        this.password = password;
+        this.passw = passw;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public String getPassw() {
+        return passw;
     }
 }

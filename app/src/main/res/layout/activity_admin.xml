@@ -1,89 +1,152 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/background">
 
-    <LinearLayout
+    <!-- Envolvemos con un NestedScrollView todo excepto la cabecera si queremos controlar los RecyclerView mejor, 
+         o usamos RecyclerView con nestedScrollingEnabled="false" -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <!-- Título -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="⚙️ Panel de Administración"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary_dark"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Sección empleados -->
-        <Button
-            android:id="@+id/btnVerEmpleados"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="👤  Ver Empleados"
-            android:textSize="14sp"
-            android:backgroundTint="@color/primary"
-            android:layout_marginBottom="12dp"/>
-
-        <TextView
-            android:id="@+id/tvEmpleados"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14sp"
-            android:textColor="@color/text_primary"
-            android:background="@color/card_background"
-            android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <!-- Separador -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"
-            android:layout_marginBottom="20dp"/>
+            <!-- Título -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Panel de Administración"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_dark"
+                android:layout_marginBottom="24dp"/>
 
-        <!-- Sección incidencias -->
-        <Button
-            android:id="@+id/btnVerIncidenciasAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="📝  Ver Incidencias (todos)"
-            android:textSize="14sp"
-            android:backgroundTint="@color/accent"
-            android:layout_marginBottom="12dp"/>
+            <!-- Sección mapa -->
+            <Button
+                android:id="@+id/btnVerMapa"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Ver Mapa de la Empresa"
+                android:textSize="14sp"
+                android:backgroundTint="@color/success"
+                android:layout_marginBottom="20dp"/>
 
-        <TextView
-            android:id="@+id/tvIncidenciasAdmin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="14sp"
-            android:textColor="@color/text_primary"
-            android:background="@color/card_background"
-            android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            <!-- Separador -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginBottom="20dp"/>
 
-        <!-- Separador -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider"
-            android:layout_marginBottom="20dp"/>
+            <!-- Sección empleados -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
 
-        <!-- Sección mapa -->
-        <Button
-            android:id="@+id/btnVerMapa"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="🗺️  Ver Mapa de la Empresa"
-            android:textSize="14sp"
-            android:backgroundTint="@color/success"/>
+                <Button
+                    android:id="@+id/btnVerEmpleados"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Ver Empleados"
+                    android:textSize="14sp"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginEnd="8dp"/>
 
-    </LinearLayout>
-</ScrollView>
+                <Button
+                    android:id="@+id/btnCrearEmpleado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Crear"
+                    android:textSize="14sp"
+                    android:backgroundTint="#FF9800"/>
+            </LinearLayout>
+
+            <!-- Recyclerview Empleados -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvEmpleados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Separador -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Sección incidencias -->
+            <Button
+                android:id="@+id/btnVerIncidenciasAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="Ver Incidencias (todos)"
+                android:textSize="14sp"
+                android:backgroundTint="@color/accent"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- RecyclerView Incidencias -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvIncidenciasAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Separador -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginBottom="20dp"/>
+
+            <!-- Sección registros empleado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <EditText
+                    android:id="@+id/etDniEmpleadoRegistros"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp"
+                    android:hint="DNI del Empleado"
+                    android:inputType="textCapCharacters"
+                    android:background="@color/card_background"
+                    android:padding="8dp"/>
+
+                <Button
+                    android:id="@+id/btnVerRegistrosEmpleado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:text="Ver Registros"
+                    android:textSize="12sp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="@color/primary"/>
+            </LinearLayout>
+
+            <!-- RecyclerView Registros Admin -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvRegistrosEmpleadoAdmin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="20dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
+

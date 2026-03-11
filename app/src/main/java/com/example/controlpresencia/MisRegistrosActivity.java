@@ -2,11 +2,13 @@ package com.example.controlpresencia;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,7 +20,8 @@ import retrofit2.Response;
 public class MisRegistrosActivity extends AppCompatActivity {
 
     private String token;
-    private TextView tvRegistros;
+    private RecyclerView rvRegistros;
+    private RegistroAdapter registroAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,11 @@ public class MisRegistrosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mis_registros);
 
         token = getIntent().getStringExtra("TOKEN");
-        tvRegistros = findViewById(R.id.tvRegistros);
+        
+        rvRegistros = findViewById(R.id.rvRegistros);
+        rvRegistros.setLayoutManager(new LinearLayoutManager(this));
+        registroAdapter = new RegistroAdapter(new ArrayList<>(), false);
+        rvRegistros.setAdapter(registroAdapter);
 
         Button btnCargar = findViewById(R.id.btnCargarRegistros);
 
@@ -51,31 +58,18 @@ public class MisRegistrosActivity extends AppCompatActivity {
                             List<RegistroResponse> registros = response.body();
 
                             if (registros.isEmpty()) {
-                                tvRegistros.setText("No tienes registros de fichaje.");
-                                return;
+                                Toast.makeText(MisRegistrosActivity.this, "No tienes registros de fichaje.", Toast.LENGTH_SHORT).show();
                             }
 
-                            // Construyo la lista de registros para mostrar en pantalla
-                            StringBuilder sb = new StringBuilder();
-                            for (RegistroResponse reg : registros) {
-                                sb.append("🟢 Entrada: ").append(reg.hora_entrada).append("\n");
-                                if (reg.hora_salida != null) {
-                                    sb.append("🔴 Salida:  ").append(reg.hora_salida);
-                                } else {
-                                    sb.append("🔴 Salida:  (Aún dentro)");
-                                }
-                                sb.append("\n──────────────────\n");
-                            }
-                            tvRegistros.setText(sb.toString());
-
+                            registroAdapter.setRegistros(registros);
                         } else {
-                            tvRegistros.setText("Error al obtener los registros.");
+                            Toast.makeText(MisRegistrosActivity.this, "Error al obtener los registros.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<RegistroResponse>> call, Throwable t) {
-                        tvRegistros.setText("Error de red: " + t.getMessage());
+                         Toast.makeText(MisRegistrosActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

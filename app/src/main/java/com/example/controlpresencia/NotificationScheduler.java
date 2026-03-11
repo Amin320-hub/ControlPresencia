@@ -13,9 +13,7 @@ import java.util.concurrent.TimeUnit;
 // La llamo desde FicharActivity justo después de que el usuario fichaje la entrada/salida
 public class NotificationScheduler {
 
-    // Programo un aviso para dentro de X minutos desde ahora
-    // Por ejemplo: si entra a las 9:00 y no ficha salida, aviso a las 17:30 (hora
-    // de salida + 15min margen)
+
     public static void programarAvisoSalida(Context context, long minutosHastaAviso) {
         Data inputData = new Data.Builder()
                 .putString("tipo_aviso", "salida")
@@ -31,7 +29,7 @@ public class NotificationScheduler {
     }
 
     // Programo un aviso de entrada para mañana por si no ficha a su hora
-    // Calculo el delay hasta la hora de entrada del trabajador
+
     public static void programarAvisoEntrada(Context context, int horaEntrada, int minutosEntrada) {
         // Calculo los milisegundos que faltan hasta la hora de entrada de mañana + 15
         // min de margen
