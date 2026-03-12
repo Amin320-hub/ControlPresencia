@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear Empleado"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_dark"
+            android:layout_marginBottom="24dp"/>
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:background="@color/card_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etApellidos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Apellidos"
+            android:inputType="textPersonName"
+            android:background="@color/card_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etNif"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="NIF"
+            android:inputType="text"
+            android:background="@color/card_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Correo Electrónico"
+            android:inputType="textEmailAddress"
+            android:background="@color/card_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Contraseña (vacío para no cambiar)"
+            android:inputType="textPassword"
+            android:background="@color/card_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rol del empleado"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="4dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerRol"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/card_background"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Guardar Empleado"
+            android:backgroundTint="@color/primary"
+            android:layout_marginBottom="12dp"/>
+
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Eliminar Empleado"
+            android:backgroundTint="#F44336"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</ScrollView>
